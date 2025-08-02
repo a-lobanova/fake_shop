@@ -1,0 +1,5 @@
+openai
+flask
+sqlalchemy
+werkzeug
+

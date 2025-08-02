@@ -34,8 +34,6 @@ def get_item_by_id(item_id):
 
 
 def find_similar_items(image_path, top_n=5, comment=""):
-    session = get_db_session()
-    items = session.query(ClothingItem).limit(top_n).all()
-    print("DB items:", items)  # <-- print для отладки
-    session.close()
-    return items
+    """Обёртка, перенаправляющая вызов к реальной AI-модели."""
+    from model.ai_model import find_similar_items as _ai_find
+    return _ai_find(image_path=image_path, top_n=top_n, comment=comment)

@@ -98,8 +98,11 @@ def parse_clothing_items(html):
             url = "https://www.ozon.ru" + link_tag.get("href", "")
             image_url = img_tag.get("src", "")
             image_blob = download_image_as_base64(image_url)
+            if not image_blob:
+                print(f"Пропущено: нет изображения для {name} ({url})")
+                continue  # Пропустить товар, если картинка не скачалась
+
             clothing_item = ClothingItem(name, price, "", url, image_url)
-            # Добавляем вручную новые поля
             clothing_item.image_blob = image_blob
             clothing_item.category = category
             items.append(clothing_item)
@@ -107,6 +110,7 @@ def parse_clothing_items(html):
 
 
 def main():
+    print("Начинаем парсинг одежды с Ozon...")
     links = [
         "https://www.ozon.ru/category/bryuki-zhenskie-7512/",
         "https://www.ozon.ru/category/zhenskie-bluzy-i-rubashki-7511/",

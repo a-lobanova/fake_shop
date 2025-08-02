@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+</head>
+
+<body>
+    <h1>Корзина</h1>
+    {% if items %}
+    {% for item in items %}
+    <div style="margin-bottom: 20px;">
+        <img src="{{ item.image_url }}" alt="{{ item.name }}" width="150"><br>
+        <b>{{ item.name }}</b><br>
+        Цена: {{ item.price }}<br>
+        Категория: {{ item.category }}<br>
+        <a href="{{ item.url }}" target="_blank">Ссылка на Ozon</a><br>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>Корзина пуста.</p>
+    {% endif %}
+    <a href="{{ url_for('index') }}">На главную</a>

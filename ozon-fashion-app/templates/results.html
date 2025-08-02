@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты поиска</title>
+</head>
+
+<body>
+    <h1>Похожие товары</h1>
+    {% for item in items %}
+    <div style="margin-bottom: 20px;">
+        <img src="{{ item.image_url }}" alt="{{ item.name }}" width="150"><br>
+        <b>{{ item.name }}</b><br>
+        Цена: {{ item.price }}<br>
+        Категория: {{ item.category }}<br>
+        <a href="{{ item.url }}" target="_blank">Ссылка на Ozon</a><br>
+        <a href="{{ url_for('add_to_cart', item_id=item.id) }}">Добавить в корзину</a>
+    </div>
+    {% endfor %}
+    <a href="{{ url_for('cart') }}">Перейти в корзину</a>
+</body>
+
+</html>

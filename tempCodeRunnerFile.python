@@ -1,0 +1,36 @@
+import os
+from flask import Flask, render_template, request, redirect, url_for, session
+from db import get_similar_items, get_item_by_id
+
+app = Flask(__name__)
+app.secret_key = "your_secret_key"
+UPLOAD_FOLDER = "static/uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        file = request.files["photo"]
+        if file:
+            filepath = os.path.join(UPLOAD_FOLDER, file.filename)
+            file.save(filepath)
+            # Здесь должен быть вызов AI-модели, сейчас просто заглушка
+            similar_items = get_similar_items(filepath)
+            return render_template("results.html", items=similar_items, photo=file.filename)
+    return render_template("index.html")
+
+@app.route("/add_to_cart/<int:item_id>")
+def add_to_cart(item_id):
+    cart = session.get("cart", [])
+    cart.append(item_id)
+    session["cart"] = cart
+    return redirect(url_for("cart"))
+
+@app.route("/cart")
+def cart():
+    cart = session.get("cart", [])
+    items = [get_item_by_id(i) for i in cart]
+    return render_template("cart.html", items=items)
+
+if __name__ == "__main__":
+    app.run(debug=True)

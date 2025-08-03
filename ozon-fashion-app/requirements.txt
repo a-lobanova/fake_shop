@@ -2,4 +2,6 @@ openai
 flask
 sqlalchemy
 werkzeug
+pillow
+requests
 

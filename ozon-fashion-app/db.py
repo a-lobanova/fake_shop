@@ -2,8 +2,18 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import random
+import os
 
-DATABASE_URL = "sqlite:///ozon_clothing_items.db"
+# Получаем абсолютный путь к директории с db.py
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE_PATH = os.path.join(BASE_DIR, 'ozon_clothing_items.db')
+DATABASE_URL = f"sqlite:///{DATABASE_PATH}"
+
+# Отладочная информация
+print(f"Подключаюсь к базе данных: {DATABASE_PATH}")
+print(f"База данных существует: {os.path.exists(DATABASE_PATH)}")
+if os.path.exists(DATABASE_PATH):
+    print(f"Размер файла БД: {os.path.getsize(DATABASE_PATH)} байт")
 Base = declarative_base()
 
 

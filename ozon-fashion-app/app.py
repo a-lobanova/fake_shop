@@ -3,7 +3,7 @@ import os
 from db import find_similar_items, get_item_by_id
 from werkzeug.utils import secure_filename
 
-app = Flask(__name__, static_folder='static', static_url_path='/static')
+app = Flask(__name__, static_folder="static", static_url_path="/static")
 app.secret_key = "your_secret_key"
 UPLOAD_FOLDER = "static/uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -27,12 +27,14 @@ def index():
             filename = secure_filename(file.filename)
             filepath = os.path.join(UPLOAD_FOLDER, filename)
             file.save(filepath)
-            
+
             # Убеждаемся, что файл сохранён правильно
             os.chmod(filepath, 0o644)  # Устанавливаем права доступа
-            
-            user_photo = filepath.replace("\\", "/")  # Для корректного отображения в HTML
-            
+
+            user_photo = filepath.replace(
+                "\\", "/"
+            )  # Для корректного отображения в HTML
+
             # Отладочная информация
             print(f"📁 Загружен файл: {filename}")
             print(f"📁 Полный путь: {filepath}")
@@ -40,7 +42,7 @@ def index():
             print(f"📁 Файл существует: {os.path.exists(filepath)}")
             if os.path.exists(filepath):
                 print(f"📁 Размер файла: {os.path.getsize(filepath)} байт")
-            
+
             items = find_similar_items(filepath, comment=comment)
             print("items:", items)  # <-- print для отладки
             return render_template(
@@ -67,23 +69,26 @@ def cart():
     return render_template("cart.html", items=items)
 
 
-@app.route('/static/uploads/<filename>')
+@app.route("/static/uploads/<filename>")
 def uploaded_file(filename):
     """Обслуживание загруженных файлов"""
     file_path = os.path.join(UPLOAD_FOLDER, filename)
     abs_file_path = os.path.abspath(file_path)  # Получаем абсолютный путь
-    
+
     print(f"🔍 Запрос файла: {filename}")
     print(f"🔍 Относительный путь: {file_path}")
     print(f"🔍 Абсолютный путь: {abs_file_path}")
     print(f"🔍 Файл существует: {os.path.exists(abs_file_path)}")
-    
+
     if os.path.exists(abs_file_path):
         from flask import send_file
+
         return send_file(abs_file_path)
     else:
         from flask import abort
+
         abort(404)
 
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)

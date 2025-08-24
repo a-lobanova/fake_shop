@@ -1,4 +1,25 @@
-**/config.py
-.env
-venv/
+# macOS
+.DS_Store
+
+# Python
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+
+# виртуальные окружения
+venv/
+env/
+
+# логи
+*.log
+
+# временные файлы редакторов
+*.swp
+*.tmp
+
+# файлы загрузки/картинки, если не нужны в репо
+static/uploads/
+
+ozon-fashion-app/config.py

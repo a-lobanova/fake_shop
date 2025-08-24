@@ -1,0 +1,11 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./ozon_clothing_items.db:/app/ozon_clothing_items.db
+      - ./static:/app/static

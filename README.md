@@ -19,7 +19,8 @@ This is a web application called **Fashion Assistant** that helps users choose c
 To build and start the application with all necessary dependencies, run:
 
 ```bash
-docker-compose up --build
+docker-compose up --build 
+```
 
 ----
 
